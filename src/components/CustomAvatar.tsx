@@ -1,16 +1,8 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
+import { Avatar } from 'antd';
+import { FiUser } from "react-icons/fi";
 
-type props = {
-    avatarImage?: string;
-}
-
-export default function CustomAvatar({ avatarImage }: props) {
+export default function CustomAvatar() {
     return (
-        <Avatar>
-            {avatarImage &&
-                <AvatarImage src={avatarImage} />
-            }
-            <AvatarFallback>BA</AvatarFallback>
-        </Avatar>
+        <Avatar icon={<FiUser />} />
     )
 }

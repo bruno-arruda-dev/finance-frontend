@@ -1,7 +1,9 @@
 import type { Metadata } from 'next';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
 import localFont from 'next/font/local';
 import './globals.css';
-import Header from '@/components/Header/Header.tsx';
+import Header from '@/components/Header.tsx';
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -20,10 +22,12 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({
+
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
     <html lang="pt-br">
       <body
@@ -31,6 +35,7 @@ export default function RootLayout({
       >
         <Header />
         {children}
+        <ToastContainer />
       </body>
     </html>
   );

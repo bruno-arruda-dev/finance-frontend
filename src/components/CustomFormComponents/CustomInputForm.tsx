@@ -1,6 +1,5 @@
+import { Input } from 'antd';
 import { Controller } from "react-hook-form";
-import { Input } from "../ui/input";
-import { Label } from "../ui/label";
 import { RiEyeCloseLine, RiEye2Line } from "react-icons/ri";
 import { useState } from "react";
 
@@ -14,8 +13,8 @@ type Props = {
 
 export default function CustomInputForm({ type = 'text', label, nameField, control }: Props) {
     const [eyes, setEyes] = useState<'closed' | 'opened'>('closed');
-    const closedEyes = <RiEyeCloseLine className="absolute right-2 top-1/2 cursor-pointer" onClick={() => setEyes('opened')} />
-    const OpenedEyes = <RiEye2Line className="absolute right-2 top-1/2 cursor-pointer" onClick={() => setEyes('closed')} />
+    const closedEyes = <RiEyeCloseLine style={{ position: 'absolute', top: '38px', right: '8px' }} onClick={() => setEyes('opened')} />
+    const OpenedEyes = <RiEye2Line style={{ position: 'absolute', top: '38px', right: '8px' }} onClick={() => setEyes('closed')} />
 
     const isPassword = type !== 'password' ? type : eyes === 'opened' ? 'text' : 'password'
 
@@ -24,11 +23,10 @@ export default function CustomInputForm({ type = 'text', label, nameField, contr
             name={nameField}
             control={control}
             render={({ field, formState: { errors } }) => {
-                console.log(errors);
                 return (
                     <>
                         <div className="grid w-full items-center gap-1.5 min-w-8 relative">
-                            <Label htmlFor={`${type}-${label}`}>{label}</Label>
+                            <label htmlFor={`${type}-${label}`}>{label}</label>
                             <Input {...field} className="w-full" type={isPassword} id={`${type}-${label}`} placeholder={label} />
                             {type === 'password' ? eyes === 'closed' ? closedEyes : OpenedEyes : null}
                         </div>

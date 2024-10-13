@@ -56,19 +56,6 @@
   }
 }
 
-.tab-trigger {
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-  transition:
-    background-color 0.3s,
-    color 0.3s;
-}
-
-.tab-trigger[data-state='active'] {
-  background-color: hsl(var(--secondary));
-  color: hsl(var(--txt-primary));
-}
-
 @layer base {
   * {
     @apply border-border;

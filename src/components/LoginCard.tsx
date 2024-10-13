@@ -1,25 +1,25 @@
 import LoginForm from "@/app/forms/LoginForm/LoginForm";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@radix-ui/react-tabs";
-import CustomCard from "./CustomCard";
 import RegisterForm from "@/app/forms/registerForm/RegisterForm";
+import { Tabs, TabsProps } from "antd";
 
-export default function LoginCard() {
-    return (
-        <CustomCard>
-            <Tabs defaultValue="login">
-                <TabsList className="grid w-full grid-cols-2 rounded">
-                    <TabsTrigger value="login" className="tab-trigger rounded">Login</TabsTrigger>
-                    <TabsTrigger value="registro" className="tab-trigger rounded">Registro</TabsTrigger>
-                </TabsList>
-                <TabsContent value="login">
-                    <br />
-                    <LoginForm />
-                </TabsContent>
-                <TabsContent value="registro">
-                    <br />
-                    <RegisterForm />
-                </TabsContent>
-            </Tabs>
-        </CustomCard>
-    );
+export type TLoginProps = {
+    setIsModalOpen: any
+}
+
+export default function LoginCard({ setIsModalOpen }: TLoginProps) {
+    const items: TabsProps['items'] = [
+        {
+            key: '1',
+            label: 'Login',
+            children: <LoginForm setIsModalOpen={setIsModalOpen} />,
+        },
+        {
+            key: '2',
+            label: 'Registrar',
+            children: <RegisterForm setIsModalOpen={setIsModalOpen} />,
+        }
+    ]
+
+    return <Tabs items={items} />
+
 }
