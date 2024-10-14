@@ -1,30 +1,28 @@
 'use client'
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "antd";
 import CustomAvatar from "./CustomAvatar";
 import BasicModal from "./BasicModal";
 import LoginCard from "./LoginCard";
-import { message } from 'antd'
+import { isAuth } from "@/app/utils/isAuth";
 
 
 export default function Header() {
-    const [messageApi, contextHolder] = message.useMessage();
+    const [loggedIn, setLoggedIn] = useState(sessionStorage.getItem('token') ? true : false)
     const [isModalOpen, setIsModalOpen] = useState(false)
+    const token = isAuth().token
 
-    function toastSuccess(content: string) {
-        messageApi.open({
-            type: 'success',
-            content: content
-        })
-    }
+    useEffect(() => {
+        setLoggedIn(token ? true : false)
+    }, [isAuth()])
+
 
     return (
         <>
-            {contextHolder}
             <div className="w-full h-12 px-1 flex items-center justify-between bg-primary text-txt-primary">
                 <div />
                 <div className="flex gap-4 h-full items-center">
-                    <Button type='primary' onClick={() => setIsModalOpen(true)}>Entrar</Button>
+                    {!loggedIn && <Button type='primary' onClick={() => setIsModalOpen(true)}>Entrar</Button>}
                     <CustomAvatar />
                 </div>
             </div>

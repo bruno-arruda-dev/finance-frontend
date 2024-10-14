@@ -1,3 +1,9 @@
+import WorkLayout from "@/components/WorkLayout";
+
 export default function Dashboard() {
-  return <>Dashboard</>;
+  return (
+    <WorkLayout>
+      Dashboard
+    </WorkLayout>
+  );
 }

@@ -21,10 +21,8 @@ export default function RegisterForm({ setIsModalOpen }: TLoginProps) {
     async function onSubmit(values: any) {
         const res = await LoginService.Register(values)
         if (res && res.status === 201) {
-            const local = { id: res.data.user.id, name: res.data.user.name, email: res.data.user.email }
-            localStorage.setItem('user-data', JSON.stringify(local));
-            sessionStorage.setItem('token', res.data.user.token);
-            toastSuccess('Você se cadastrou com sucesso 😎 Vamos direcioná-lo para sua dashboard.')
+            sessionStorage.setItem('user-data', JSON.stringify(res.data.user));
+            toastSuccess('Você está logado! Vamos direcioná-lo para sua dashboard.');
             router.push('/dashboard');
             setIsModalOpen(false);
         }
