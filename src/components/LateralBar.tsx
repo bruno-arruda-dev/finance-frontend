@@ -1,6 +1,6 @@
 'use client'
 import { toastInfo } from "@/utils/toast-utils";
-import { Menu } from "antd";
+import { Menu, Tooltip } from "antd";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaHouseUser } from "react-icons/fa";
@@ -46,7 +46,7 @@ export default function LateralBar() {
     }
 
     function handleLogOut() {
-        sessionStorage.clear();
+        sessionStorage.removeItem('user-data');
         toastInfo('Ficarei aqui te esperando! Até a próxima 😊');
         router.push('/');
     }
@@ -90,10 +90,9 @@ export default function LateralBar() {
     return (
         <>
             <div className={`
-        h-[calc(100vh-48px)] flex bg-primary absolute flex-col justify-between bottom-0 left-0 py-4 px-1
+        h-[calc(100vh-48px)] flex bg-primary absolute flex-col justify-between bottom-0 left-0 pt-8 pb-4 px-1
         ${collapsed && 'w-[54px]'}
         `}>
-
                 <CollapseButton size="small" right={-7} top={3} onClick={handleCollapseMenu} />
 
                 <Menu
@@ -107,15 +106,17 @@ export default function LateralBar() {
                     onClick={handleMenuClick}
                 />
 
-                <div
-                    onClick={() => setLogoutModal(true)}
-                    className={`
-                    h-8 w-full bg-secondary error cursor-pointer rounded-lg text-white flex items-center justify-center transition duration-200 ease-in-out
-                    hover:bg-primary
-                    ${!collapsed && 'gap-2'}
-                    `}>
-                    <RiLogoutBoxLine size={20} /> {!collapsed ? 'Sair' : ''}
-                </div>
+                <Tooltip title={collapsed ? 'Sair do aplicativo' : ''} placement="right">
+                    <div
+                        onClick={() => setLogoutModal(true)}
+                        className={`
+                        h-8 w-full bg-secondary error cursor-pointer rounded-lg text-white flex items-center justify-center transition duration-200 ease-in-out
+                        hover:bg-primary
+                        ${!collapsed && 'gap-2'}
+                        `}>
+                        <RiLogoutBoxLine size={20} /> {!collapsed ? 'Sair' : ''}
+                    </div>
+                </Tooltip>
             </div>
 
             <BasicModal

@@ -1,5 +1,6 @@
 import { isAuth } from '@/utils/isAuth';
-import { Avatar } from 'antd';
+import { Avatar, Tooltip } from 'antd';
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { FiUser } from "react-icons/fi";
 
@@ -16,10 +17,20 @@ export default function CustomAvatar() {
 
     const slug = getSlug()
 
+    const tooltipTitle = (
+        <Link href="/user/data">
+            Ir para Dados de Usuário
+        </Link>
+    )
+
     useEffect(() => {
         const newName = isAuth().name
         if (name) setName(newName)
     }, [isAuth()])
 
-    return !name ? <Avatar icon={<FiUser />} /> : <Avatar style={{ color: 'white', fontWeight: 'bold', cursor: 'pointer' }}>{slug}</Avatar>
+    return !name ? <Avatar icon={<FiUser />} />
+        : <Tooltip title={tooltipTitle} placement='bottomLeft' mouseLeaveDelay={2}>
+
+            <Avatar style={{ color: 'white', fontWeight: 'bold', cursor: 'pointer' }}>{slug}</Avatar>
+        </Tooltip>
 }
