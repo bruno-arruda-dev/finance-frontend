@@ -1,4 +1,4 @@
-import { isAuth } from '@/app/utils/isAuth';
+import { isAuth } from '@/utils/isAuth';
 import { Avatar } from 'antd';
 import { useEffect, useState } from 'react';
 import { FiUser } from "react-icons/fi";
@@ -15,8 +15,6 @@ export default function CustomAvatar() {
     }
 
     const slug = getSlug()
-
-    console.log(slug)
 
     useEffect(() => {
         const newName = isAuth().name

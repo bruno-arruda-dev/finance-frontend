@@ -1,5 +1,5 @@
-import LoginForm from "@/app/forms/LoginForm/LoginForm";
-import RegisterForm from "@/app/forms/registerForm/RegisterForm";
+import LoginForm from "@/forms/LoginForm/LoginForm";
+import RegisterForm from "@/forms/registerForm/RegisterForm";
 import { Tabs, TabsProps } from "antd";
 
 export type TLoginProps = {

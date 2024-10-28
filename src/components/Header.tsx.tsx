@@ -4,7 +4,7 @@ import { Button } from "antd";
 import CustomAvatar from "./CustomAvatar";
 import BasicModal from "./BasicModal";
 import LoginCard from "./LoginCard";
-import { isAuth } from "@/app/utils/isAuth";
+import { isAuth } from "@/utils/isAuth";
 
 
 export default function Header() {

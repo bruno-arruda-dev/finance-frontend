@@ -1,5 +1,4 @@
 import { Modal } from 'antd';
-import { CSSProperties } from 'react';
 
 type Props = {
     title?: string;

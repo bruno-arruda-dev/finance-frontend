@@ -1,4 +1,4 @@
-import { toastError } from '@/app/utils/toast-utils';
+import { toastError } from '@/utils/toast-utils';
 import axios, { AxiosError } from 'axios';
 
 const p = 'http://localhost:3333'
@@ -16,12 +16,12 @@ class LoginService {
 
     static async Login(data: any) {
         try {
-            const res = await axios.post(p + '/login', data)
-            return res
+            const res = await axios.post(p + '/login', data);
+            return res;
         } catch (error: any) {
             if (error.response.status === 401) toastError('Email ou senha incorretos')
             if (error.response.status === 404) toastError('Email ou senha incorretos')
-            throw error
+            throw error;
         }
     }
 }

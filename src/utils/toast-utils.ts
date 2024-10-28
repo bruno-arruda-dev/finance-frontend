@@ -16,7 +16,7 @@ export function toastSuccess(message: string) {
 export function toastAlert(message: string) {
     toast.warning(message, {
         position: "top-right",
-        autoClose: 10000,
+        autoClose: 6000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -29,7 +29,7 @@ export function toastAlert(message: string) {
 export function toastInfo(message: string) {
     toast.info(message, {
         position: "top-right",
-        autoClose: 10000,
+        autoClose: 6000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -42,7 +42,7 @@ export function toastInfo(message: string) {
 export function toastError(message: string) {
     toast.error(message, {
         position: "top-right",
-        autoClose: 10000,
+        autoClose: 6000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
