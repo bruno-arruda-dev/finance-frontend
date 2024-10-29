@@ -90,10 +90,10 @@ export default function LateralBar() {
     return (
         <>
             <div className={`
-        h-[calc(100vh-48px)] flex bg-primary absolute flex-col justify-between bottom-0 left-0 pt-8 pb-4 px-1
+        h-[calc(100vh-48px)] flex bg-primary absolute flex-col justify-between bottom-0 left-0 pt-8 pb-4 px-1 z-10
         ${collapsed && 'w-[54px]'}
         `}>
-                <CollapseButton size="small" right={-7} top={3} onClick={handleCollapseMenu} />
+                <CollapseButton direction={collapsed ? 'right' : 'left'} size="small" right={-7} top={3} onClick={handleCollapseMenu} />
 
                 <Menu
                     style={{ width: collapsed ? '100%' : '300px', transition: 'all 0s' }}
