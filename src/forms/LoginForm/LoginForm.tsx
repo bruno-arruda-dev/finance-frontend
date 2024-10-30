@@ -2,12 +2,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import CustomInputForm from "@/components/CustomFormComponents/CustomInputForm";
 import { useForm } from "react-hook-form";
 import { LoginInitialValues, LoginSchema } from "./LoginFormController";
-import { LoginService } from "@/services/login-service";
+import { UserService } from "@/services/user-service";
 import { Button } from "antd";
 import { TLoginProps } from "@/components/LoginCard";
 import { useRouter } from "next/navigation";
 import { toastSuccess } from "@/utils/toast-utils";
 import { useState } from "react";
+import { SessionStorage } from "@/utils/setSessionStorage";
 
 export default function LoginForm({ setIsModalOpen }: TLoginProps) {
     const { handleSubmit, control } = useForm({
@@ -22,10 +23,10 @@ export default function LoginForm({ setIsModalOpen }: TLoginProps) {
     async function onSubmit(values: any) {
         setIsLoading(true)
         try {
-            const res = await LoginService.Login(values);
+            const res = await UserService.Login(values);
 
             if (res && res.status === 201) {
-                sessionStorage.setItem('user-data', JSON.stringify(res.data.user));
+                SessionStorage.SetUserData(res.data.user)
                 toastSuccess('Você está logado! Vamos direcioná-lo para sua dashboard.');
                 router.push('/dashboard');
                 setIsModalOpen(false);

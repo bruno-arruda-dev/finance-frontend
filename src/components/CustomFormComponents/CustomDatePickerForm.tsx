@@ -1,8 +1,8 @@
-import { Input } from 'antd';
+import { DatePicker, Input } from 'antd';
 import { Controller } from "react-hook-form";
 import { RiEyeCloseLine, RiEye2Line } from "react-icons/ri";
 import { useState } from "react";
-
+import dayjs from 'dayjs';
 
 type Props = {
     type?: React.HTMLInputTypeAttribute;
@@ -11,37 +11,37 @@ type Props = {
     control: any;
     readOnly?: boolean;
     disabled?: boolean;
-    textTransform?: 'capitalize' | 'uppercase' | 'lowercase'
 };
 
-export default function CustomInputForm({ type = 'text', label, nameField, control, disabled, readOnly, textTransform = 'lowercase' }: Props) {
+export default function CustomDatePickerForm({ type = 'text', label, nameField, control, disabled, readOnly }: Props) {
     const [eyes, setEyes] = useState<'closed' | 'opened'>('closed');
-    const closedEyes = <RiEyeCloseLine style={{ position: 'absolute', top: '38px', right: '8px' }} onClick={() => setEyes('opened')} />
-    const OpenedEyes = <RiEye2Line style={{ position: 'absolute', top: '38px', right: '8px' }} onClick={() => setEyes('closed')} />
-
-    const isPassword = type !== 'password' ? type : eyes === 'opened' ? 'text' : 'password'
+    const closedEyes = <RiEyeCloseLine style={{ position: 'absolute', top: '38px', right: '8px' }} onClick={() => setEyes('opened')} />;
+    const OpenedEyes = <RiEye2Line style={{ position: 'absolute', top: '38px', right: '8px' }} onClick={() => setEyes('closed')} />;
+    const isPassword = type !== 'password' ? type : eyes === 'opened' ? 'text' : 'password';
 
     return (
         <Controller
             name={nameField}
             control={control}
             render={({ field, formState: { errors } }) => {
+                // Convertendo a string de data em um objeto dayjs
+                const dateValue = field.value ? dayjs(field.value) : null;
+
                 return (
                     <>
                         <div className="grid w-full items-center gap-1.5 min-w-8 relative">
                             <label htmlFor={`${type}-${label}`}>{label}</label>
-
-                            <Input
+                            <DatePicker
                                 {...field}
+                                value={dateValue}
+                                format={'DD/MM/YYYY HH:mm:ss'}
                                 readOnly={readOnly}
                                 className="w-full"
                                 type={isPassword}
                                 id={`${type}-${label}`}
                                 placeholder={label}
                                 disabled={disabled}
-                                style={{ textTransform: textTransform }}
                             />
-
                             {type === 'password' ? eyes === 'closed' ? closedEyes : OpenedEyes : null}
                         </div>
                         {errors[nameField] && typeof errors[nameField].message === "string" && (

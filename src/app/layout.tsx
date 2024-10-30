@@ -4,6 +4,12 @@ import { ToastContainer } from 'react-toastify';
 import localFont from 'next/font/local';
 import './globals.css';
 import Header from '@/components/Header.tsx';
+import { ConfigProvider } from 'antd';
+import ptBR from 'antd/lib/locale/pt_BR';
+import dayjs from 'dayjs';
+import 'dayjs/locale/pt-br';
+
+dayjs.locale('pt-br');
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -33,9 +39,11 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Header />
-        {children}
-        <ToastContainer />
+        <ConfigProvider locale={ptBR}>
+          <Header />
+          {children}
+          <ToastContainer />
+        </ConfigProvider>
       </body>
     </html>
   );

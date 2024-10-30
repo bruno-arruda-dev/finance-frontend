@@ -32,7 +32,7 @@ export default function Header() {
     return (
         <>
             <div className="w-full h-12 px-1 flex items-center justify-between bg-primary text-txt-primary">
-                <h1 className="ml-1">{greeting}</h1>
+                <h1 className="ml-1 capitalize">{greeting}</h1>
                 <div className="flex gap-4 h-full items-center">
                     {!token && <Button type='primary' onClick={() => setIsModalOpen(true)}>Entrar</Button>}
                     <CustomAvatar />
