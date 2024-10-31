@@ -1,7 +1,7 @@
 import { isAuth } from '@/utils/isAuth';
 import axios from 'axios';
 
-const baseURL = 'http://localhost:3333';
+const baseURL = process.env.BASE_URL;
 
 const { token } = isAuth();
 
