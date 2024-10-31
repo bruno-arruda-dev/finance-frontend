@@ -1,14 +1,11 @@
+'use client'
 class SessionStorage {
     static SetUserData(data: any) {
-        if (typeof window !== 'undefined') {
-            sessionStorage.setItem('user-data', JSON.stringify(data));
-        }
+        sessionStorage.setItem('user-data', JSON.stringify(data));
     }
 
     static DelUserData() {
-        if (typeof window !== 'undefined') {
-            sessionStorage.removeItem('user-data');
-        }
+        sessionStorage.removeItem('user-data');
     }
 }
 
