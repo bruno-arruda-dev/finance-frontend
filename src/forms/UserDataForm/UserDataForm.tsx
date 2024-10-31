@@ -25,9 +25,8 @@ export default function UserDataForm() {
     const isMobile = getDeviceType() === "isMobile";
     const sessionUserData = typeof window != 'undefined' ? sessionStorage.getItem('user-data') : null;
     const user = sessionUserData ? JSON.parse(sessionUserData) : null;
-    console.log(user.token)
     async function fetchData() {
-        const res = await UserService.GetUser(user.token);
+        const res = await UserService.GetUser(user?.token);
 
         if (res && res.status === 200) reset(res.data.user);
     }
@@ -39,7 +38,7 @@ export default function UserDataForm() {
         } else {
             values.name = normalizeText(values.name)
         }
-        const res = await UserService.UpdateUser(values, user.token)
+        const res = await UserService.UpdateUser(values, user?.token)
 
         if (res && res.status === 200) {
             if (typeof window != 'undefined') sessionStorage.setItem('user-data', JSON.stringify(res.data.user))

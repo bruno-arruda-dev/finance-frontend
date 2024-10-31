@@ -26,7 +26,7 @@ export default function UserSecurityForm() {
     async function onSubmit(values: any) {
         setIsLoading(true)
         try {
-            const res = await UserService.UpdateUser(values, user.token)
+            const res = await UserService.UpdateUser(values, user?.token)
 
             if (res && res.status === 200) reset()
             if (typeof window != undefined) sessionStorage.setItem('user-data', JSON.stringify(res.data.user))
