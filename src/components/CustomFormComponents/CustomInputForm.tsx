@@ -26,6 +26,8 @@ export default function CustomInputForm({ type = 'text', label, nameField, contr
             name={nameField}
             control={control}
             render={({ field, formState: { errors } }) => {
+                const error = errors[nameField] ? 'error' : undefined;
+
                 return (
                     <>
                         <div className="grid w-full items-center gap-1.5 min-w-8 relative">
@@ -40,6 +42,7 @@ export default function CustomInputForm({ type = 'text', label, nameField, contr
                                 placeholder={label}
                                 disabled={disabled}
                                 style={{ textTransform: textTransform }}
+                                status={error}
                             />
 
                             {type === 'password' ? eyes === 'closed' ? closedEyes : OpenedEyes : null}
