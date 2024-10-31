@@ -3,11 +3,11 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import localFont from 'next/font/local';
 import './globals.css';
-import Header from '@/components/Header.tsx';
 import { ConfigProvider } from 'antd';
 import ptBR from 'antd/lib/locale/pt_BR';
 import dayjs from 'dayjs';
 import 'dayjs/locale/pt-br';
+import Header from '@/components/Header';
 
 dayjs.locale('pt-br');
 
