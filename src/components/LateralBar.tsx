@@ -11,8 +11,6 @@ import { MdDashboard } from "react-icons/md";
 import { RiLogoutBoxLine } from "react-icons/ri";
 import CollapseButton from "./CollapseButton";
 import BasicModal from "./BasicModal";
-import { SessionStorage } from "@/utils/setSessionStorage";
-
 
 export default function LateralBar() {
     const [collapsed, setCollapsed] = useState(true);
@@ -47,7 +45,7 @@ export default function LateralBar() {
     }
 
     function handleLogOut() {
-        SessionStorage.DelUserData();
+        sessionStorage.removeItem('user-data');
         toastInfo('Ficarei aqui te esperando! Até a próxima 😊');
         router.push('/');
     }

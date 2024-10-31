@@ -8,7 +8,6 @@ import { toastSuccess } from "@/utils/toast-utils"
 import { useRouter } from "next/navigation"
 import { TLoginProps } from "@/components/LoginCard"
 import { useState } from "react"
-import { SessionStorage } from "@/utils/setSessionStorage"
 
 export default function RegisterForm({ setIsModalOpen }: TLoginProps) {
     const { handleSubmit, control } = useForm({
@@ -26,7 +25,7 @@ export default function RegisterForm({ setIsModalOpen }: TLoginProps) {
         try {
             const res = await UserService.Register(values)
             if (res && res.status === 201) {
-                SessionStorage.SetUserData(res.data.user)
+                sessionStorage.setItem('user-data', JSON.stringify(res.data.user))
                 toastSuccess('Você está logado! Vamos direcioná-lo para sua dashboard.');
                 router.push('/dashboard');
                 setIsModalOpen(false);

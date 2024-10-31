@@ -10,7 +10,6 @@ import { Col, Row } from "antd";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { UserDataFormInitialValues, UserDataFormSchema } from "./UserDataFormController";
-import { SessionStorage } from "@/utils/setSessionStorage";
 import { getDeviceType } from "@/utils/device-type";
 import { normalizeText } from "@/utils/normalize-text";
 
@@ -41,7 +40,7 @@ export default function UserDataForm() {
         const res = await UserService.UpdateUser(values)
 
         if (res && res.status === 200) {
-            SessionStorage.SetUserData(res.data.user)
+            sessionStorage.setItem('user-data', JSON.stringify(res.data.user))
             reset(res.data.user);
             toastSuccess('Dados de usuário atualizados com sucesso!')
         }

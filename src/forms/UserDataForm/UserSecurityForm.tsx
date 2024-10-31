@@ -8,7 +8,6 @@ import { Col, Row } from "antd";
 import CustomInputForm from "@/components/CustomFormComponents/CustomInputForm";
 import BottomBarForm from "@/components/BottomBar/BottomBarForm";
 import { UserService } from "@/services/user-service";
-import { SessionStorage } from "@/utils/setSessionStorage";
 import { toastSuccess } from "@/utils/toast-utils";
 
 export default function UserSecurityForm() {
@@ -28,7 +27,7 @@ export default function UserSecurityForm() {
             const res = await UserService.UpdateUser(values)
 
             if (res && res.status === 200) reset()
-            SessionStorage.SetUserData(res.data.user)
+            sessionStorage.setItem('user-data', JSON.stringify(res.data.user))
             toastSuccess('Senha alterada com sucesso!')
             setIsLoading(false)
         } catch (error: any) {

@@ -8,7 +8,6 @@ import { TLoginProps } from "@/components/LoginCard";
 import { useRouter } from "next/navigation";
 import { toastSuccess } from "@/utils/toast-utils";
 import { useState } from "react";
-import { SessionStorage } from "@/utils/setSessionStorage";
 
 export default function LoginForm({ setIsModalOpen }: TLoginProps) {
     const { handleSubmit, control } = useForm({
@@ -26,7 +25,7 @@ export default function LoginForm({ setIsModalOpen }: TLoginProps) {
             const res = await UserService.Login(values);
 
             if (res && res.status === 201) {
-                SessionStorage.SetUserData(res.data.user)
+                sessionStorage.setItem('user-data', JSON.stringify(res.data.user))
                 toastSuccess('Você está logado! Vamos direcioná-lo para sua dashboard.');
                 router.push('/dashboard');
                 setIsModalOpen(false);
