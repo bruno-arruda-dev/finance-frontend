@@ -1,7 +1,7 @@
 type DeviceType = 'isDesktop' | 'isTablet' | 'isMobile';
 
 function getDeviceType(): DeviceType {
-    const width = window.innerWidth;
+    const width = typeof window != 'undefined' ? window.innerWidth : 1224;
 
     if (width > 1224) {
         return 'isDesktop';

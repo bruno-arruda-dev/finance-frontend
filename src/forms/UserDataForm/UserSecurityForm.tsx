@@ -19,15 +19,17 @@ export default function UserSecurityForm() {
     })
     const isDirty = Object.entries(dirtyFields).length > 0;
     const [isLoading, setIsLoading] = useState(false);
-    const isMobile = getDeviceType() === 'isMobile'
+    const isMobile = getDeviceType() === 'isMobile';
+    const sessionUserData = typeof window != 'undefined' ? sessionStorage.getItem('user-data') : null;
+    const user = sessionUserData ? JSON.parse(sessionUserData) : null
 
     async function onSubmit(values: any) {
         setIsLoading(true)
         try {
-            const res = await UserService.UpdateUser(values)
+            const res = await UserService.UpdateUser(values, user.token)
 
             if (res && res.status === 200) reset()
-            sessionStorage.setItem('user-data', JSON.stringify(res.data.user))
+            if (typeof window != undefined) sessionStorage.setItem('user-data', JSON.stringify(res.data.user))
             toastSuccess('Senha alterada com sucesso!')
             setIsLoading(false)
         } catch (error: any) {

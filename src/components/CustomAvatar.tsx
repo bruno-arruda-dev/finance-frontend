@@ -1,11 +1,12 @@
-import { isAuth } from '@/utils/isAuth';
 import { Avatar, Tooltip } from 'antd';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { FiUser } from "react-icons/fi";
 
 export default function CustomAvatar() {
-    const [name, setName] = useState(isAuth().name);
+    const sessionUserData = typeof window != 'undefined' ? sessionStorage.getItem('user-data') : null;
+    const user = sessionUserData ? JSON.parse(sessionUserData) : null
+    const [name, setName] = useState(user?.name);
 
     function getSlug() {
         const slug = name ? name?.split(' ') : []
@@ -24,9 +25,9 @@ export default function CustomAvatar() {
     )
 
     useEffect(() => {
-        const newName = isAuth().name
+        const newName = user?.name
         if (name) setName(newName)
-    }, [isAuth()])
+    }, [user])
 
     return !name ? <Avatar icon={<FiUser />} />
         : <Tooltip title={tooltipTitle} placement='bottomLeft' mouseLeaveDelay={2}>

@@ -45,7 +45,7 @@ export default function LateralBar() {
     }
 
     function handleLogOut() {
-        sessionStorage.removeItem('user-data');
+        if (typeof window != 'undefined') sessionStorage.removeItem('user-data')
         toastInfo('Ficarei aqui te esperando! Até a próxima 😊');
         router.push('/');
     }

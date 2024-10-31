@@ -22,10 +22,12 @@ export default function UserDataForm() {
     })
     const isDirty = Object.entries(dirtyFields).length > 0;
     const [isLoading, setIsLoading] = useState(false)
-    const isMobile = getDeviceType() === "isMobile"
-
+    const isMobile = getDeviceType() === "isMobile";
+    const sessionUserData = typeof window != 'undefined' ? sessionStorage.getItem('user-data') : null;
+    const user = sessionUserData ? JSON.parse(sessionUserData) : null;
+    console.log(user.token)
     async function fetchData() {
-        const res = await UserService.GetUser();
+        const res = await UserService.GetUser(user.token);
 
         if (res && res.status === 200) reset(res.data.user);
     }
@@ -37,10 +39,10 @@ export default function UserDataForm() {
         } else {
             values.name = normalizeText(values.name)
         }
-        const res = await UserService.UpdateUser(values)
+        const res = await UserService.UpdateUser(values, user.token)
 
         if (res && res.status === 200) {
-            sessionStorage.setItem('user-data', JSON.stringify(res.data.user))
+            if (typeof window != 'undefined') sessionStorage.setItem('user-data', JSON.stringify(res.data.user))
             reset(res.data.user);
             toastSuccess('Dados de usuário atualizados com sucesso!')
         }

@@ -1,17 +1,18 @@
 'use client'
-import { useEffect, useState } from "react";
-import { Button, Tooltip, Typography } from "antd";
-import CustomAvatar from "./CustomAvatar";
-import BasicModal from "./BasicModal";
-import LoginCard from "./LoginCard";
-import { isAuth } from "@/utils/isAuth";
-import { useParams } from "next/navigation";
+import { Button } from "antd";
 import Link from "next/link";
+import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import BasicModal from "./BasicModal";
+import CustomAvatar from "./CustomAvatar";
+import LoginCard from "./LoginCard";
 
 export default function Header() {
     const params = useParams();
-    const [name, setName] = useState(isAuth().name);
-    const [token, setToken] = useState(isAuth().token);
+    const sessionUserData = typeof window != 'undefined' ? sessionStorage.getItem('user-data') : null;
+    const user = sessionUserData ? JSON.parse(sessionUserData) : null
+    const [name, setName] = useState(user?.name);
+    const [token, setToken] = useState(user?.token);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const greeting = !token
@@ -25,8 +26,8 @@ export default function Header() {
             );
 
     useEffect(() => {
-        setToken(isAuth().token);
-        setName(isAuth().name);
+        setToken(user?.token);
+        setName(user?.name);
     }, [params]);
 
     return (

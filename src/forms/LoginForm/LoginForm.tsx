@@ -25,7 +25,7 @@ export default function LoginForm({ setIsModalOpen }: TLoginProps) {
             const res = await UserService.Login(values);
 
             if (res && res.status === 201) {
-                sessionStorage.setItem('user-data', JSON.stringify(res.data.user))
+                if (typeof window != 'undefined') sessionStorage.setItem('user-data', JSON.stringify(res.data.user))
                 toastSuccess('Você está logado! Vamos direcioná-lo para sua dashboard.');
                 router.push('/dashboard');
                 setIsModalOpen(false);

@@ -6,9 +6,13 @@ import { TUserDataFormSchema } from '@/forms/UserDataForm/UserDataFormController
 const p = 'http://localhost:3333'
 
 class UserService {
-    static async GetUser() {
+    static async GetUser(token?: string) {
         try {
-            const res = await Api.get(p + '/users')
+            const res = await Api.get(p + '/users', {
+                headers: {
+                    "Authorization": token ? `Bearer ${token}` : ''
+                }
+            })
 
             return res
         } catch (error) {
@@ -37,9 +41,13 @@ class UserService {
         }
     }
 
-    static async UpdateUser(data: TUserDataFormSchema) {
+    static async UpdateUser(data: TUserDataFormSchema, token?: string) {
         try {
-            const res = await Api.put(p + '/users', data);
+            const res = await Api.put(p + '/users', data, {
+                headers: {
+                    "Authorization": token ? `Bearer ${token}` : ''
+                }
+            });
 
             return res;
         } catch (error) {
