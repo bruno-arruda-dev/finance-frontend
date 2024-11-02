@@ -1,9 +1,9 @@
 import { toastError } from '@/utils/toast-utils';
-import axios from 'axios';
 import Api from './api';
 import { TUserDataFormSchema } from '@/forms/UserDataForm/UserDataFormController';
 
-const p = 'http://localhost:3333'
+const p = process.env.NEXT_PUBLIC_BASE_URL;
+console.log('pedido: ' + p)
 
 class UserService {
     static async GetUser(token?: string) {
