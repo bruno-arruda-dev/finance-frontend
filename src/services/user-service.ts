@@ -29,16 +29,6 @@ class UserService {
         }
     }
 
-    static async Login(data: any) {
-        try {
-            const res = await Api.post(p + '/login', data);
-            return res;
-        } catch (error: any) {
-            if (error.response.status === 401) toastError('Email ou senha incorretos')
-            if (error.response.status === 404) toastError('Email ou senha incorretos')
-            throw error;
-        }
-    }
 
     static async UpdateUser(data: TUserDataFormSchema, token?: string) {
         try {
@@ -53,6 +43,18 @@ class UserService {
             throw error
         }
     }
+
+    static async Login(data: any) {
+        try {
+            const res = await Api.post(p + '/login', data);
+            return res;
+        } catch (error: any) {
+            if (error.response.status === 401) toastError('Email ou senha incorretos')
+            if (error.response.status === 404) toastError('Email ou senha incorretos')
+            throw error;
+        }
+    }
 }
+
 
 export { UserService };
