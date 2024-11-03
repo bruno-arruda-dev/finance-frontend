@@ -2,7 +2,7 @@
 import { toastInfo } from "@/utils/toast-utils";
 import { Menu, Tooltip } from "antd";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { FaHouseUser } from "react-icons/fa";
 import { FaMoneyBillTransfer, FaWallet } from "react-icons/fa6";
 import { FiUser } from "react-icons/fi";
@@ -16,13 +16,14 @@ export default function LateralBar() {
     const [collapsed, setCollapsed] = useState(true);
     const [logoutModal, setLogoutModal] = useState(false);
     const router = useRouter();
+    const sidebarRef = useRef<HTMLDivElement>(null);
 
     function handleCollapseMenu() {
-        setCollapsed(!collapsed)
+        setCollapsed(!collapsed);
     }
 
     function handleMenuClick(values: any) {
-        const key = values.key
+        const key = values.key;
         switch (key) {
             case 'dashboard':
                 router.push('/dashboard');
@@ -39,16 +40,27 @@ export default function LateralBar() {
             case 'userConfig':
                 router.push('/user/data');
                 break;
-
-
         }
     }
 
     function handleLogOut() {
-        if (typeof window != 'undefined') sessionStorage.removeItem('user-data')
+        if (typeof window != 'undefined') sessionStorage.removeItem('user-data');
         toastInfo('Ficarei aqui te esperando! Até a próxima 😊');
         router.push('/');
     }
+
+    useEffect(() => {
+        function handleClickOutside(event: any) {
+            if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {
+                setCollapsed(true);
+            }
+        }
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
 
     const items: any = [
         {
@@ -88,10 +100,10 @@ export default function LateralBar() {
 
     return (
         <>
-            <div className={`
-        h-[calc(100vh-48px)] flex bg-primary absolute flex-col justify-between bottom-0 left-0 pt-8 pb-4 px-1 z-10
-        ${collapsed && 'w-[54px]'}
-        `}>
+            <div ref={sidebarRef} className={`
+                h-[calc(100vh-48px)] flex bg-primary absolute flex-col justify-between bottom-0 left-0 pt-8 pb-4 px-1 z-10
+                ${collapsed && 'w-[54px]'}
+            `}>
                 <CollapseButton direction={collapsed ? 'right' : 'left'} size="small" right={-7} top={3} onClick={handleCollapseMenu} />
 
                 <Menu
@@ -129,5 +141,5 @@ export default function LateralBar() {
                 Tem certeza de que quer sair?
             </BasicModal>
         </>
-    )
+    );
 }
