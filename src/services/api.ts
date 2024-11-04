@@ -8,7 +8,7 @@ const Api = axios.create({
     baseURL: baseURL,
     headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${user.token}`
+        'Authorization': `Bearer ${user?.token}`
     }
 });
 
