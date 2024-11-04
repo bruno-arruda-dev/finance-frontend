@@ -1,6 +1,6 @@
-import LoginForm from "@/forms/LoginForm/LoginForm";
-import RegisterForm from "@/forms/registerForm/RegisterForm";
 import { Tabs, TabsProps } from "antd";
+import LoginForm from "./forms/LoginForm/LoginForm";
+import RegisterForm from "./forms/registerForm/RegisterForm";
 
 export type TLoginProps = {
     setIsModalOpen: any

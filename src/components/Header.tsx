@@ -1,16 +1,14 @@
-'use client'
 import { Button } from "antd";
-import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import BasicModal from "./BasicModal";
 import CustomAvatar from "./CustomAvatar";
 import LoginCard from "./LoginCard";
+import { HandleSessionStorage } from "../utils/session-storage";
 
 export default function Header() {
     const params = useParams();
-    const sessionUserData = typeof window != 'undefined' ? sessionStorage.getItem('user-data') : null;
-    const user = sessionUserData ? JSON.parse(sessionUserData) : null
+    const user = HandleSessionStorage.getUserData();
     const [name, setName] = useState(user?.name);
     const [token, setToken] = useState(user?.token);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -20,7 +18,7 @@ export default function Header() {
         : name
             ? `Olá, ${name.split(' ')[0]}!`
             : (
-                <Link href='/user/data'>
+                <Link to='/user/data'>
                     Olá! Ainda não sei seu nome. Clica aqui e me conta!
                 </Link>
             );

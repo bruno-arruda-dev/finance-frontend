@@ -1,6 +1,6 @@
 import Api from "./api";
 
-const p = process.env.NEXT_PUBLIC_BASE_URL;
+const p = import.meta.env.VITE_BASE_URL;
 
 class HealthService {
     static async get() {

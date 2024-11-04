@@ -1,7 +1,5 @@
-'use client'
-import { toastInfo } from "@/utils/toast-utils";
 import { Menu, Tooltip } from "antd";
-import { useRouter } from "next/navigation";
+import { useNavigate } from "react-router-dom"
 import { useState, useRef, useEffect } from "react";
 import { FaHouseUser } from "react-icons/fa";
 import { FaMoneyBillTransfer, FaWallet } from "react-icons/fa6";
@@ -11,11 +9,13 @@ import { MdDashboard } from "react-icons/md";
 import { RiLogoutBoxLine } from "react-icons/ri";
 import CollapseButton from "./CollapseButton";
 import BasicModal from "./BasicModal";
+import { toastInfo } from "../utils/toast-utils";
+import { HandleSessionStorage } from "../utils/session-storage";
 
 export default function LateralBar() {
     const [collapsed, setCollapsed] = useState(true);
     const [logoutModal, setLogoutModal] = useState(false);
-    const router = useRouter();
+    const navigateFunc = useNavigate();
     const sidebarRef = useRef<HTMLDivElement>(null);
 
     function handleCollapseMenu() {
@@ -26,27 +26,27 @@ export default function LateralBar() {
         const key = values.key;
         switch (key) {
             case 'dashboard':
-                router.push('/dashboard');
+                navigateFunc('/dashboard');
                 break;
             case 'cashFlow':
-                router.push('/cashFlow');
+                navigateFunc('/cashFlow');
                 break;
             case 'environments':
-                router.push('/auxiliary-records/environments');
+                navigateFunc('/auxiliary-records/environments');
                 break;
             case 'wallets':
-                router.push('/auxiliary-records/wallets');
+                navigateFunc('/auxiliary-records/wallets');
                 break;
             case 'userConfig':
-                router.push('/user/data');
+                navigateFunc('/user/data');
                 break;
         }
     }
 
     function handleLogOut() {
-        if (typeof window != 'undefined') sessionStorage.removeItem('user-data');
+        HandleSessionStorage.deleteUserData();
         toastInfo('Ficarei aqui te esperando! Até a próxima 😊');
-        router.push('/');
+        navigateFunc('/');
     }
 
     useEffect(() => {

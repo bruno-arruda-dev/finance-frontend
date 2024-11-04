@@ -1,13 +1,14 @@
-'use client';
-
 import axios from 'axios';
+import { HandleSessionStorage } from '../utils/session-storage';
 
-const baseURL = process.env.NEXT_PUBLIC_BASE_URL;
+const baseURL = import.meta.env.VITE_BASE_URL;
+const user = HandleSessionStorage.getUserData();
 
 const Api = axios.create({
     baseURL: baseURL,
     headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${user.token}`
     }
 });
 

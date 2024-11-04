@@ -1,5 +1,4 @@
-'use client'
-import { useRouter } from "next/navigation";
+import { useNavigate } from "react-router-dom"
 import CollapseButton from "./CollapseButton";
 
 type props = {
@@ -8,20 +7,20 @@ type props = {
 }
 
 export default function PageTitle({ title, navigate }: props) {
-    const router = useRouter()
+    const navigateFunc = useNavigate();
 
     function handleNavigate() {
         if (navigate) {
-            router.push(navigate)
+            navigateFunc(navigate)
         } else {
-            router.back()
+            navigateFunc(-1)
         }
     }
 
     return (
         <div className="my-4 flex items-center justify-start">
             <CollapseButton direction="left" size="medium" position="static" onClick={handleNavigate} />
-            <h1 className="font-bold text-2xl">{title}</h1>
+            <h2 className="font-bold text-2xl">{title}</h2>
         </div>
     )
 }

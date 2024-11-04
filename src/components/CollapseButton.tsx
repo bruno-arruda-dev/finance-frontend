@@ -1,4 +1,3 @@
-'use client'
 import { FaChevronDown, FaChevronLeft, FaChevronUp } from "react-icons/fa";
 import { FaChevronRight } from "react-icons/fa6";
 

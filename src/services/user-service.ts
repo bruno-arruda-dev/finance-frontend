@@ -1,17 +1,13 @@
-import { toastError } from '@/utils/toast-utils';
 import Api from './api';
-import { TUserDataFormSchema } from '@/forms/UserDataForm/UserDataFormController';
+import { TUserDataFormSchema } from '../components/forms/UserDataForm/UserDataFormController';
+import { toastError } from '../utils/toast-utils';
 
-const p = process.env.NEXT_PUBLIC_BASE_URL;
+const p = import.meta.env.VITE_BASE_URL;
 
 class UserService {
-    static async GetUser(token?: string) {
+    static async GetUser() {
         try {
-            const res = await Api.get(p + '/users', {
-                headers: {
-                    "Authorization": token ? `Bearer ${token}` : ''
-                }
-            })
+            const res = await Api.get(p + '/users')
 
             return res
         } catch (error) {
@@ -30,13 +26,9 @@ class UserService {
     }
 
 
-    static async UpdateUser(data: TUserDataFormSchema, token?: string) {
+    static async UpdateUser(data: TUserDataFormSchema) {
         try {
-            const res = await Api.put(p + '/users', data, {
-                headers: {
-                    "Authorization": token ? `Bearer ${token}` : ''
-                }
-            });
+            const res = await Api.put(p + '/users', data,);
 
             return res;
         } catch (error) {

@@ -1,11 +1,10 @@
 import { Avatar, Tooltip } from 'antd';
-import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { FiUser } from "react-icons/fi";
+import { HandleSessionStorage } from '../utils/session-storage';
 
 export default function CustomAvatar() {
-    const sessionUserData = typeof window != 'undefined' ? sessionStorage.getItem('user-data') : null;
-    const user = sessionUserData ? JSON.parse(sessionUserData) : null
+    const user = HandleSessionStorage.getUserData()
     const [name, setName] = useState(user?.name);
 
     function getSlug() {
@@ -19,9 +18,9 @@ export default function CustomAvatar() {
     const slug = getSlug()
 
     const tooltipTitle = (
-        <Link href="/user/data">
+        <a href="/user/data">
             Ir para Dados de Usuário
-        </Link>
+        </a>
     )
 
     useEffect(() => {
