@@ -24,9 +24,8 @@ export default function EnvironmentForm({ fetchData, id }: props) {
     })
     const [isLoading, setIsLoading] = useState(false)
     const isDirty = Object.entries(dirtyFields).length > 0;
-    const user = HandleSessionStorage.getUserData();
     async function fetchEnvironment() {
-        const res = await EnvironmentService.get(id, user.token);
+        const res = await EnvironmentService.get(id);
         if (res && res.status === 200) reset(res.data.environments[0])
         console.log(res.data.environments[0])
     }
@@ -35,7 +34,7 @@ export default function EnvironmentForm({ fetchData, id }: props) {
         setIsLoading(true)
         if (id) {
             const data = { id: values.id, name: values.name }
-            const res = await EnvironmentService.put(data, user.token);
+            const res = await EnvironmentService.put(data);
 
             if (res && res.status === 200) {
                 reset(res.data.environment);
@@ -44,7 +43,7 @@ export default function EnvironmentForm({ fetchData, id }: props) {
             }
         } else {
             const data = { name: values.name }
-            const res = await EnvironmentService.post(data, user.token);
+            const res = await EnvironmentService.post(data);
 
             if (res && res.status === 201) {
                 reset(res.data.environment);
