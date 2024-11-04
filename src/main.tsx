@@ -12,9 +12,11 @@ import AppRoutes from './routes/routes.tsx';
 import { BrowserRouter } from 'react-router-dom';
 dayjs.locale('pt-br');
 
+const basename = import.meta.env.VITE_NODE_ENV === 'local' ? '/' : '/finance-frontend';
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename={basename}>
       <ConfigProvider locale={ptBR}>
         <Header />
         <AppRoutes />
