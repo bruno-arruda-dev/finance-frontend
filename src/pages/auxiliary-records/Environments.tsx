@@ -6,10 +6,9 @@ import EnvironmentForm from "../../components/forms/EnvironmentForm/EnvironmentF
 import ColumnActions from "../../components/GenericTable/ColumnActions";
 import GenericTable from "../../components/GenericTable/GenericTable";
 import PageTitle from "../../components/PageTitle";
-import { toastSuccess } from "../../utils/toast-utils";
 import WorkLayout from "../../components/WorkLayout";
 import { EnvironmentService } from "../../services/environment-service";
-import { HandleSessionStorage } from "../../utils/session-storage";
+import { toastSuccess } from "../../utils/toast-utils";
 
 type TPermitions = 'editar' | 'compartilhar' | 'deletar';
 
@@ -26,7 +25,6 @@ type TEnvironment = {
 export default function Environments() {
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState<TEnvironment[]>([]);
-  const user = HandleSessionStorage.getUserData();
   const [toEdit, setToEdit] = useState<{ open: boolean, environment: TEnvironment | null }>({ open: false, environment: null });
   const [toShare, setToShare] = useState<{ open: boolean, environment: TEnvironment | null }>({ open: false, environment: null });
   const [toDelete, setToDelete] = useState<{ open: boolean, environment: TEnvironment | null }>({ open: false, environment: null });
