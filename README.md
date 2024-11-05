@@ -2,7 +2,7 @@
 
 ## Visão Geral
 
-Este é o frontend do projeto Fin, com o objetivo de ser uma ferramenta simples e intuitiva de gestão financeira e, para atingir tal objetivo, optei por desenvolver este projeto utilizando Next, Typescript, Tailwind e outras tecnologias modernas.
+Este é o frontend do projeto Fin, com o objetivo de ser uma ferramenta simples e intuitiva de gestão financeira e, para atingir tal objetivo, optei por desenvolver este projeto utilizando Vite, Typescript, Tailwind e outras tecnologias modernas.
 
 As features disponíveis até o momento podem ser acompanhadas em *Requisitos Funcionais*
 
