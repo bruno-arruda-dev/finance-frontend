@@ -7,7 +7,6 @@ import ptBR from 'antd/lib/locale/pt_BR';
 import dayjs from 'dayjs';
 import 'dayjs/locale/pt-br';
 import './index.css'
-import Header from './components/Header.tsx';
 import AppRoutes from './routes/routes.tsx';
 import { BrowserRouter } from 'react-router-dom';
 dayjs.locale('pt-br');
@@ -16,7 +15,6 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
       <ConfigProvider locale={ptBR}>
-        <Header />
         <AppRoutes />
         <ToastContainer />
       </ConfigProvider>

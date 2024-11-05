@@ -1,16 +1,17 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { LoginInitialValues, LoginSchema } from "./LoginFormController";
 import { Button } from "antd";
 import { useState } from "react";
-import { TLoginProps } from "../../LoginCard";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { useUser } from "../../../context/UserContext";
 import { UserService } from "../../../services/user-service";
 import { toastSuccess } from "../../../utils/toast-utils";
 import CustomInputForm from "../../CustomFormComponents/CustomInputForm";
-import { useNavigate } from "react-router-dom";
-import { HandleSessionStorage } from "../../../utils/session-storage";
+import { TLoginProps } from "../../LoginCard";
+import { LoginInitialValues, LoginSchema } from "./LoginFormController";
 
 export default function LoginForm({ setIsModalOpen }: TLoginProps) {
+    const { updateUser } = useUser();
     const { handleSubmit, control } = useForm({
         mode: 'onSubmit',
         reValidateMode: 'onSubmit',
@@ -26,7 +27,7 @@ export default function LoginForm({ setIsModalOpen }: TLoginProps) {
             const res = await UserService.Login(values);
 
             if (res && res.status === 201) {
-                HandleSessionStorage.setUserData(res.data.user);
+                updateUser(res.data.user);
                 toastSuccess('Você está logado! Vamos direcioná-lo para sua dashboard.');
                 navigateFunc('/dashboard');
                 setIsModalOpen(false);

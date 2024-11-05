@@ -2,10 +2,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Col, Row } from "antd";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useUser } from "../../../context/UserContext";
 import { UserService } from "../../../services/user-service";
 import { getDeviceType } from "../../../utils/device-type";
 import { normalizeText } from "../../../utils/normalize-text";
-import { HandleSessionStorage } from "../../../utils/session-storage";
 import { toastSuccess } from "../../../utils/toast-utils";
 import BottomBarForm from "../../BottomBar/BottomBarForm";
 import CustomCheckboxForm from "../../CustomFormComponents/CustomCheckboxForm";
@@ -23,6 +23,7 @@ export default function UserDataForm() {
     const isDirty = Object.entries(dirtyFields).length > 0;
     const [isLoading, setIsLoading] = useState(false)
     const isMobile = getDeviceType() === "isMobile";
+    const { updateUser } = useUser();
     async function fetchData() {
         const res = await UserService.GetUser();
 
@@ -39,7 +40,7 @@ export default function UserDataForm() {
         const res = await UserService.UpdateUser(values)
 
         if (res && res.status === 200) {
-            HandleSessionStorage.setUserData(res.data.user);
+            updateUser(res.data.user);
             reset(res.data.user);
             toastSuccess('Dados de usuário atualizados com sucesso!')
         }

@@ -1,55 +1,43 @@
-import { toast } from 'react-toastify';
+import { toast, ToastOptions, ToastContent } from 'react-toastify';
 
-const autoClose = 3000
+const toastConfig: ToastOptions = {
+    position: "top-center",
+    autoClose: 3000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: false,
+    draggable: true,
+    progress: undefined,
+    theme: "colored",
+}
+
+function createToast(toastType: (content: ToastContent, options?: ToastOptions) => void, message: ToastContent, options: ToastOptions) {
+    toastType(message, {
+        ...toastConfig,
+        ...options,
+    });
+}
 
 export function toastSuccess(message: string) {
-    toast.success(message, {
-        position: "top-right",
-        autoClose: autoClose,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
+    createToast(toast.success, message, {
+        // style: { backgroundColor: '#a9f5a9' }
     });
 }
 
 export function toastAlert(message: string) {
-    toast.warning(message, {
-        position: "top-right",
-        autoClose: autoClose,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-    })
+    createToast(toast.warning, message, {
+        // style: { backgroundColor: '#faf8be' }
+    });
 }
 
 export function toastInfo(message: string) {
-    toast.info(message, {
-        position: "top-right",
-        autoClose: autoClose,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-    })
+    createToast(toast.info, message, {
+        // style: { backgroundColor: '#c7c8fc' }
+    });
 }
 
 export function toastError(message: string) {
-    toast.error(message, {
-        position: "top-right",
-        autoClose: autoClose,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
+    createToast(toast.error, message, {
+        // style: { backgroundColor: '#fccacf' }
     });
 }

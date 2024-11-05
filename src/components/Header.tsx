@@ -1,40 +1,33 @@
 import { Button } from "antd";
-import { useParams, Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { useUser } from '../context/UserContext';
 import BasicModal from "./BasicModal";
 import CustomAvatar from "./CustomAvatar";
 import LoginCard from "./LoginCard";
-import { HandleSessionStorage } from "../utils/session-storage";
 
 export default function Header() {
-    const params = useParams();
-    const user = HandleSessionStorage.getUserData();
-    const [name, setName] = useState(user?.name);
-    const [token, setToken] = useState(user?.token);
+    const { user } = useUser();
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const greeting = !token
+    const greeting = !user?.token
         ? 'Finance'
-        : name
-            ? `Olá, ${name.split(' ')[0]}!`
+        : user?.name
+            ? `Olá, ${user?.name.split(' ')[0]}!`
             : (
                 <Link to='/user/data'>
                     Olá! Ainda não sei seu nome. Clica aqui e me conta!
                 </Link>
             );
 
-    useEffect(() => {
-        setToken(user?.token);
-        setName(user?.name);
-    }, [params]);
 
     return (
         <>
             <div className="w-full h-12 px-1 flex items-center justify-between bg-primary text-txt-primary">
-                <h1 className={`ml-1 ${name && 'capitalize'}`}>{greeting}</h1>
+                <h1 className={`ml-1 ${user?.name && 'capitalize'}`}>{greeting}</h1>
                 <div className="flex gap-4 h-full items-center">
-                    {!token && <Button type='primary' onClick={() => setIsModalOpen(true)}>Entrar</Button>}
-                    <CustomAvatar />
+                    {!user?.token && <Button type='primary' onClick={() => setIsModalOpen(true)}>Entrar</Button>}
+                    {user?.token && <CustomAvatar />}
                 </div>
             </div>
 

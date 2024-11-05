@@ -1,18 +1,19 @@
 import { Menu, Tooltip } from "antd";
-import { useNavigate } from "react-router-dom"
-import { useState, useRef, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FaHouseUser } from "react-icons/fa";
 import { FaMoneyBillTransfer, FaWallet } from "react-icons/fa6";
 import { FiUser } from "react-icons/fi";
 import { HiOutlinePuzzlePiece } from "react-icons/hi2";
 import { MdDashboard } from "react-icons/md";
 import { RiLogoutBoxLine } from "react-icons/ri";
-import CollapseButton from "./CollapseButton";
-import BasicModal from "./BasicModal";
+import { useNavigate } from "react-router-dom";
+import { useUser } from '../context/UserContext';
 import { toastInfo } from "../utils/toast-utils";
-import { HandleSessionStorage } from "../utils/session-storage";
+import BasicModal from "./BasicModal";
+import CollapseButton from "./CollapseButton";
 
 export default function LateralBar() {
+    const { deleteUser } = useUser();
     const [collapsed, setCollapsed] = useState(true);
     const [logoutModal, setLogoutModal] = useState(false);
     const navigateFunc = useNavigate();
@@ -44,7 +45,7 @@ export default function LateralBar() {
     }
 
     function handleLogOut() {
-        HandleSessionStorage.deleteUserData();
+        deleteUser();
         toastInfo('Ficarei aqui te esperando! Até a próxima 😊');
         navigateFunc('/');
     }
