@@ -31,7 +31,6 @@ export default function UserSecurityForm() {
             toastSuccess('Senha alterada com sucesso!')
             setIsLoading(false)
         } catch (error: any) {
-            console.log(error.response.data.message)
             if (error.status === 401) setError('password', { message: error.response.data.message });
             setIsLoading(false)
         }
@@ -41,19 +40,19 @@ export default function UserSecurityForm() {
         <form onSubmit={handleSubmit(onSubmit)}>
             <Row gutter={[10, 10]}>
                 <Col span={isMobile ? 24 : 12}>
-                    <CustomInputForm label='Senha' nameField='password' control={control} type="password" disabled={isLoading} />
+                    <CustomInputForm isLoading={isLoading} label='Senha' nameField='password' control={control} type="password" disabled={isLoading} />
                 </Col>
             </Row>
             <br />
             <Row gutter={[10, 10]}>
                 <Col span={isMobile ? 24 : 12}>
-                    <CustomInputForm label='Nova Senha' nameField='newPassword' control={control} type="password" disabled={isLoading} />
+                    <CustomInputForm isLoading={isLoading} label='Nova Senha' nameField='newPassword' control={control} type="password" disabled={isLoading} />
                 </Col>
             </Row>
             <br />
             <Row gutter={[10, 10]}>
                 <Col span={isMobile ? 24 : 12}>
-                    <CustomInputForm label='Confirmação de Nova Senha' nameField="newPasswordConfirmation" control={control} type="password" disabled={isLoading} />
+                    <CustomInputForm isLoading={isLoading} label='Confirmação de Nova Senha' nameField="newPasswordConfirmation" control={control} type="password" disabled={isLoading} />
                 </Col>
             </Row>
 

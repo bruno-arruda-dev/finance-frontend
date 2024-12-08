@@ -1,4 +1,4 @@
-import { Checkbox } from 'antd';
+import { Checkbox, Skeleton } from 'antd';
 import { Controller } from "react-hook-form";
 
 type Props = {
@@ -6,9 +6,10 @@ type Props = {
     nameField: string;
     control: any;
     disabled?: boolean;
+    isLoading: boolean;
 };
 
-export default function CustomCheckboxForm({ label, nameField, control, disabled }: Props) {
+export default function CustomCheckboxForm({ label, nameField, control, disabled, isLoading }: Props) {
     return (
         <Controller
             name={nameField}
@@ -18,17 +19,23 @@ export default function CustomCheckboxForm({ label, nameField, control, disabled
                     <>
                         <div className="grid w-full items-center gap-1.5 min-w-8 relative">
                             <label htmlFor={`${nameField}`}>{label}</label>
-                            <Checkbox
-                                {...field}
-                                checked={field.value}
-                                onChange={e => field.onChange(e.target.checked)}
-                                className="w-full"
-                                id={`${nameField}`}
-                                disabled={disabled}
-                            />
+                            {
+                                isLoading ? (
+                                    <Skeleton.Node active style={{ width: '20px', height: '20px' }} />
+                                ) : (
+                                    <Checkbox
+                                        {...field}
+                                        checked={field.value}
+                                        onChange={e => field.onChange(e.target.checked)}
+                                        className="w-full"
+                                        id={`${nameField}`}
+                                        disabled={disabled}
+                                    />
+                                )
+                            }
                         </div>
                         {errors[nameField] && typeof errors[nameField].message === "string" && (
-                            <p className="text-xs text-primary font-bold error">{errors[nameField].message}</p>
+                            <p className="text-xs font-bold text-primary error">{errors[nameField].message}</p>
                         )}
                     </>
                 );

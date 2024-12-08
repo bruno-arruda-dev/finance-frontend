@@ -12,6 +12,7 @@ import CustomCheckboxForm from "../../CustomFormComponents/CustomCheckboxForm";
 import CustomDatePickerForm from "../../CustomFormComponents/CustomDatePickerForm";
 import CustomInputForm from "../../CustomFormComponents/CustomInputForm";
 import { UserDataFormInitialValues, UserDataFormSchema } from "./UserDataFormController";
+import CustomLabelForm from "../../CustomFormComponents/CustomLabelForm";
 
 export default function UserDataForm() {
     const { handleSubmit, reset, control, formState: { dirtyFields } } = useForm({
@@ -25,9 +26,11 @@ export default function UserDataForm() {
     const isMobile = getDeviceType() === "isMobile";
     const { updateUser } = useUser();
     async function fetchData() {
+        setIsLoading(true)
         const res = await UserService.GetUser();
 
         if (res && res.status === 200) reset(res.data.user);
+        setIsLoading(false)
     }
 
     async function onSubmit(values: any) {
@@ -56,29 +59,29 @@ export default function UserDataForm() {
 
             <Row gutter={[10, 10]}>
                 <Col span={isMobile ? 24 : 12}>
-                    <CustomInputForm label='Email' nameField="email" control={control} disabled={isLoading} />
+                    <CustomInputForm isLoading={isLoading} label='Email' nameField="email" control={control} disabled={isLoading} />
                 </Col>
 
             </Row>
             <br />
             <Row gutter={[10, 10]}>
                 <Col span={isMobile ? 24 : 12}>
-                    <CustomInputForm label='Nome' nameField="name" control={control} textTransform="capitalize" disabled={isLoading} />
+                    <CustomInputForm isLoading={isLoading} label='Nome' nameField="name" control={control} textTransform="capitalize" disabled={isLoading} />
                 </Col>
             </Row>
             <br />
             <Row gutter={[10, 10]}>
                 <Col span={isMobile ? 9 : 3}>
-                    <CustomCheckboxForm label='Usuário Ativo' nameField="active" control={control} disabled={isLoading} />
+                    <CustomCheckboxForm isLoading={isLoading} label='Usuário Ativo' nameField="active" control={control} disabled={isLoading} />
                 </Col>
                 <Col span={isMobile ? 15 : 9}>
-                    <CustomDatePickerForm label='Data de Cadastro' nameField="createdAt" control={control} disabled />
+                    <CustomLabelForm isLoading={isLoading} label='Data e Hora do Cadastro' nameField="createdAt" control={control} format="datetime" />
                 </Col>
             </Row>
             <br />
             <Row gutter={[10, 10]}>
                 <Col span={isMobile ? 24 : 12}>
-                    <CustomInputForm label='ID de Usuário' nameField="id" control={control} readOnly />
+                    <CustomLabelForm isLoading={isLoading} label='ID de Usuário' nameField="id" control={control} />
                 </Col>
             </Row>
 

@@ -1,4 +1,4 @@
-import { Input } from 'antd';
+import { Input, Skeleton } from 'antd';
 import { Controller } from "react-hook-form";
 import { RiEyeCloseLine, RiEye2Line } from "react-icons/ri";
 import { useState } from "react";
@@ -12,9 +12,10 @@ type Props = {
     readOnly?: boolean;
     disabled?: boolean;
     textTransform?: 'capitalize' | 'uppercase' | 'lowercase'
+    isLoading: boolean;
 };
 
-export default function CustomInputForm({ type = 'text', label, nameField, control, disabled, readOnly, textTransform = 'lowercase' }: Props) {
+export default function CustomInputForm({ type = 'text', label, nameField, control, disabled, readOnly, textTransform = 'lowercase', isLoading }: Props) {
     const [eyes, setEyes] = useState<'closed' | 'opened'>('closed');
     const closedEyes = <RiEyeCloseLine style={{ position: 'absolute', top: '38px', right: '8px' }} onClick={() => setEyes('opened')} />
     const OpenedEyes = <RiEye2Line style={{ position: 'absolute', top: '38px', right: '8px' }} onClick={() => setEyes('closed')} />
@@ -32,23 +33,29 @@ export default function CustomInputForm({ type = 'text', label, nameField, contr
                     <>
                         <div className="grid w-full items-center gap-1.5 min-w-8 relative">
                             <label htmlFor={`${type}-${label}`}>{label}</label>
+                            {
+                                isLoading ? (
+                                    <Skeleton.Input active style={{ width: '100%' }} />
+                                ) : (
+                                    <Input
+                                        {...field}
+                                        readOnly={readOnly}
+                                        className="w-full"
+                                        type={isPassword}
+                                        id={`${type}-${label}`}
+                                        placeholder={label}
+                                        disabled={disabled}
+                                        style={{ textTransform: textTransform }}
+                                        status={error}
+                                    />
+                                )
+                            }
 
-                            <Input
-                                {...field}
-                                readOnly={readOnly}
-                                className="w-full"
-                                type={isPassword}
-                                id={`${type}-${label}`}
-                                placeholder={label}
-                                disabled={disabled}
-                                style={{ textTransform: textTransform }}
-                                status={error}
-                            />
 
                             {type === 'password' ? eyes === 'closed' ? closedEyes : OpenedEyes : null}
                         </div>
                         {errors[nameField] && typeof errors[nameField].message === "string" && (
-                            <p className="text-xs text-primary font-bold error">{errors[nameField].message}</p>
+                            <p className="text-xs font-bold text-primary error">{errors[nameField].message}</p>
                         )}
                     </>
                 );

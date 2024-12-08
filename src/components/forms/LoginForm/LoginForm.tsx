@@ -40,9 +40,9 @@ export default function LoginForm({ setIsModalOpen }: TLoginProps) {
 
     return (
         <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
-            <CustomInputForm disabled={isLoading} label="Email" nameField='email' control={control} />
+            <CustomInputForm isLoading={isLoading} label="Email" nameField='email' control={control} />
             <br />
-            <CustomInputForm disabled={isLoading} label="Senha" type="password" nameField='password' control={control} />
+            <CustomInputForm isLoading={isLoading} label="Senha" type="password" nameField='password' control={control} />
             <br />
             <Button disabled={isLoading} type="primary" htmlType="submit">Entrar</Button>
         </form>

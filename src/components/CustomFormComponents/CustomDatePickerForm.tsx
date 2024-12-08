@@ -1,4 +1,4 @@
-import { DatePicker } from 'antd';
+import { DatePicker, Skeleton } from 'antd';
 import dayjs from 'dayjs';
 import { useState } from "react";
 import { Controller } from "react-hook-form";
@@ -11,9 +11,10 @@ type Props = {
     control: any;
     readOnly?: boolean;
     disabled?: boolean;
+    isLoading: boolean;
 };
 
-export default function CustomDatePickerForm({ type = 'text', label, nameField, control, disabled, readOnly }: Props) {
+export default function CustomDatePickerForm({ type = 'text', label, nameField, control, disabled, readOnly, isLoading }: Props) {
     const [eyes, setEyes] = useState<'closed' | 'opened'>('closed');
     const closedEyes = <RiEyeCloseLine style={{ position: 'absolute', top: '38px', right: '8px' }} onClick={() => setEyes('opened')} />;
     const OpenedEyes = <RiEye2Line style={{ position: 'absolute', top: '38px', right: '8px' }} onClick={() => setEyes('closed')} />;
@@ -24,28 +25,34 @@ export default function CustomDatePickerForm({ type = 'text', label, nameField, 
             name={nameField}
             control={control}
             render={({ field, formState: { errors } }) => {
-                // Convertendo a string de data em um objeto dayjs
                 const dateValue = field.value ? dayjs(field.value) : null;
 
                 return (
                     <>
                         <div className="grid w-full items-center gap-1.5 min-w-8 relative">
                             <label htmlFor={`${type}-${label}`}>{label}</label>
-                            <DatePicker
-                                {...field}
-                                value={dateValue}
-                                format={'DD/MM/YYYY HH:mm:ss'}
-                                readOnly={readOnly}
-                                className="w-full"
-                                type={isPassword}
-                                id={`${type}-${label}`}
-                                placeholder={label}
-                                disabled={disabled}
-                            />
+
+                            {
+                                isLoading ? (
+                                    <Skeleton.Input active style={{ width: '100%' }} />
+                                ) : (
+                                    <DatePicker
+                                        {...field}
+                                        value={dateValue}
+                                        format={'DD/MM/YYYY HH:mm:ss'}
+                                        readOnly={readOnly}
+                                        className="w-full"
+                                        type={isPassword}
+                                        id={`${type}-${label}`}
+                                        placeholder={label}
+                                        disabled={disabled}
+                                    />
+                                )
+                            }
                             {type === 'password' ? eyes === 'closed' ? closedEyes : OpenedEyes : null}
                         </div>
                         {errors[nameField] && typeof errors[nameField].message === "string" && (
-                            <p className="text-xs text-primary font-bold error">{errors[nameField].message}</p>
+                            <p className="text-xs font-bold text-primary error">{errors[nameField].message}</p>
                         )}
                     </>
                 );

@@ -40,11 +40,11 @@ export default function RegisterForm({ setIsModalOpen }: TLoginProps) {
 
     return (
         <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
-            <CustomInputForm disabled={isLoading} label="Email" nameField='email' control={control} />
+            <CustomInputForm isLoading={isLoading} label="Email" nameField='email' control={control} />
             <br />
-            <CustomInputForm disabled={isLoading} label="Senha" nameField='password' control={control} type='password' />
+            <CustomInputForm isLoading={isLoading} label="Senha" nameField='password' control={control} type='password' />
             <br />
-            <CustomInputForm disabled={isLoading} label="Confirmação de Senha" nameField='passwordConfirmation' control={control} type='password' />
+            <CustomInputForm isLoading={isLoading} label="Confirmação de Senha" nameField='passwordConfirmation' control={control} type='password' />
             <br />
             <Button disabled={isLoading} type='primary' htmlType="submit" >Registrar</Button>
         </form>
