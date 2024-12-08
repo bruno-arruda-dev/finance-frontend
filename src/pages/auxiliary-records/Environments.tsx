@@ -9,16 +9,31 @@ import PageTitle from "../../components/PageTitle";
 import WorkLayout from "../../components/WorkLayout";
 import { EnvironmentService } from "../../services/environment-service";
 import { toastSuccess } from "../../utils/toast-utils";
+import { findIn } from "../../utils/utils";
+import { useUser } from "../../context/UserContext";
 
 type TPermitions = 'editar' | 'compartilhar' | 'deletar';
+
+type share = {
+  accepted: boolean | null;
+  active: boolean;
+  createdAt: string;
+  id: number;
+  userPartner: string;
+  userEmail: string;
+  userName: string;
+}
 
 type TEnvironment = {
   id: number,
   name: string,
   createdAt: string,
   userOwner: string,
+  userOwnerEmail: string,
+  userOwnerName?: string,
   active: boolean,
   permitions: TPermitions[],
+  share: share[]
 }
 
 
@@ -28,6 +43,7 @@ export default function Environments() {
   const [toEdit, setToEdit] = useState<{ open: boolean, environment: TEnvironment | null }>({ open: false, environment: null });
   const [toShare, setToShare] = useState<{ open: boolean, environment: TEnvironment | null }>({ open: false, environment: null });
   const [toDelete, setToDelete] = useState<{ open: boolean, environment: TEnvironment | null }>({ open: false, environment: null });
+  const user = useUser()?.user;
 
   async function fetchData() {
     setIsLoading(true)
@@ -73,6 +89,18 @@ export default function Environments() {
       render: (value: string) => <p className="capitalize">{value}</p>
     },
     {
+      title: 'Proprietário',
+      dataIndex: 'userOwner',
+      key: 'userOwner',
+      render: (value: string) => {
+
+        const record = findIn(data, 'userOwner', value);
+
+        if (record.userOwnerName) return (<p className="capitalize">{`${value === user?.id ? '(Eu)' : ''} ${record.userOwnerName}`}</p>);
+        return (<p>{`${value === user?.id ? '(Eu)' : ''} ${record.userOwnerEmail}`}</p>)
+      }
+    },
+    {
       title: 'Cadastro',
       dataIndex: 'createdAt',
       key: 'createdAt',
@@ -81,15 +109,22 @@ export default function Environments() {
     {
       key: '',
       title: '',
-      render: (_: any, record: TEnvironment) =>
-        <ColumnActions
-          actionEdit={() => handleEdit(record)}
-          actionShare={() => handleShare(record)}
-          actionDelete={() => handleConfirmDelete(record)}
-          allowedEdit={record.permitions.includes('editar')}
-          allowedShare={record.permitions.includes('compartilhar')}
-          allowedDelete={record.permitions.includes('deletar')}
-        />
+      render: (_: any, record: TEnvironment) => {
+        const shareLength = record?.share?.length > 0 ? record?.share?.length : undefined
+
+        return (
+          <ColumnActions
+            actionEdit={() => handleEdit(record)}
+            actionShare={() => handleShare(record)}
+            shareCount={shareLength}
+            actionDelete={() => handleConfirmDelete(record)}
+            allowedEdit={record.permitions.includes('editar')}
+            allowedShare={record.permitions.includes('compartilhar')}
+            allowedDelete={record.permitions.includes('deletar')}
+          />
+
+        )
+      }
     }
   ]
 
@@ -105,6 +140,7 @@ export default function Environments() {
         <Row gutter={[10, 10]}>
           <Col span={24}>
             <GenericTable
+              key={'id'}
               cols={cols}
               data={data}
               loading={isLoading}
