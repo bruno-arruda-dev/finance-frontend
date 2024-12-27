@@ -140,10 +140,11 @@ export default function Environments() {
         <Row gutter={[10, 10]}>
           <Col span={24}>
             <GenericTable
-              key={'id'}
+              rowKey='id'
               cols={cols}
               data={data}
               loading={isLoading}
+              getRowDoubleClick={(_: any, record: any) => handleEdit(record)}
             />
           </Col>
         </Row>
