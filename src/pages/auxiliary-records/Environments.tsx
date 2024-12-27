@@ -24,7 +24,7 @@ type share = {
   userName: string;
 }
 
-type TEnvironment = {
+export type TEnvironment = {
   id: number,
   name: string,
   createdAt: string,
@@ -40,9 +40,9 @@ type TEnvironment = {
 export default function Environments() {
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState<TEnvironment[]>([]);
-  const [toEdit, setToEdit] = useState<{ open: boolean, environment: TEnvironment | null }>({ open: false, environment: null });
-  const [toShare, setToShare] = useState<{ open: boolean, environment: TEnvironment | null }>({ open: false, environment: null });
-  const [toDelete, setToDelete] = useState<{ open: boolean, environment: TEnvironment | null }>({ open: false, environment: null });
+  const [toEdit, setToEdit] = useState<{ open: boolean, environment?: TEnvironment }>({ open: false, environment: undefined });
+  const [toShare, setToShare] = useState<{ open: boolean, environment?: TEnvironment }>({ open: false, environment: undefined });
+  const [toDelete, setToDelete] = useState<{ open: boolean, environment?: TEnvironment }>({ open: false, environment: undefined });
   const user = useUser()?.user;
 
   async function fetchData() {
@@ -72,7 +72,7 @@ export default function Environments() {
       toastSuccess('Ambiente apagado com sucesso!');
       fetchData();
     }
-    setToDelete({ open: false, environment: null })
+    setToDelete({ open: false, environment: undefined })
     setIsLoading(false)
   }
 
@@ -148,14 +148,14 @@ export default function Environments() {
           </Col>
         </Row>
 
-        <BottomBarForm textOk={'Novo Ambiente'} actionOk={() => setToEdit({ open: true, environment: null })} hideCancel />
+        <BottomBarForm textOk={'Novo Ambiente'} actionOk={() => setToEdit({ open: true, environment: undefined })} hideCancel />
       </WorkLayout>
 
-      <Drawer destroyOnClose title={toEdit.environment ? 'Editar Ambiente' : 'Cadastrar Ambiente'} open={toEdit.open} onClose={() => setToEdit({ open: false, environment: null })}>
-        <EnvironmentForm fetchData={fetchData} id={toEdit.environment?.id} />
+      <Drawer destroyOnClose title={toEdit.environment ? 'Editar Ambiente' : 'Cadastrar Ambiente'} open={toEdit.open} onClose={() => setToEdit({ open: false, environment: undefined })}>
+        <EnvironmentForm fetchData={fetchData} id={toEdit.environment?.id} setToEdit={setToEdit} />
       </Drawer>
 
-      <Drawer destroyOnClose title={'Compartilhamento de Ambiente'} open={toShare.open} onClose={() => setToShare({ open: false, environment: null })}>
+      <Drawer destroyOnClose title={'Compartilhamento de Ambiente'} open={toShare.open} onClose={() => setToShare({ open: false, environment: undefined })}>
         Compartilhar
       </Drawer>
 
@@ -163,7 +163,7 @@ export default function Environments() {
         title={`Deseja apagar o ambiente?`}
         isOpen={toDelete.open}
         onOk={handleDelete}
-        onCancel={() => setToDelete({ open: false, environment: null })}
+        onCancel={() => setToDelete({ open: false, environment: undefined })}
       >
         <br />
         <p>{toDelete.environment?.name.toUpperCase()}</p>

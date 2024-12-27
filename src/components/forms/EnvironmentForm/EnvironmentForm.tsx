@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Card, Col, Row } from "antd";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { EnvironmentService } from "../../../services/environment-service";
 import { toastSuccess } from "../../../utils/toast-utils";
@@ -9,13 +9,15 @@ import CustomCheckboxForm from "../../CustomFormComponents/CustomCheckboxForm";
 import CustomInputForm from "../../CustomFormComponents/CustomInputForm";
 import { EnvironmentInitialValues, EnvironmentSchema } from "./EnvironmentFormController";
 import CustomLabelForm from "../../CustomFormComponents/CustomLabelForm";
+import { TEnvironment } from "../../../pages/auxiliary-records/Environments";
 
 type props = {
     fetchData: () => void;
     id?: number;
+    setToEdit: Dispatch<SetStateAction<{ open: boolean; environment?: TEnvironment }>>;
 }
 
-export default function EnvironmentForm({ fetchData, id }: props) {
+export default function EnvironmentForm({ fetchData, id, setToEdit }: props) {
     const { handleSubmit, control, reset, formState: { dirtyFields } } = useForm({
         mode: 'onSubmit',
         reValidateMode: 'onSubmit',
@@ -29,33 +31,38 @@ export default function EnvironmentForm({ fetchData, id }: props) {
         setIsLoading(true)
         const res = await EnvironmentService.get(id);
         if (res && res.status === 200) reset(res.data.environments[0])
-        console.log(res.data.environments[0])
         setIsLoading(false)
     }
 
     async function onSubmit(values: any) {
         setIsLoading(true)
-        if (id) {
-            const data = { id: values.id, name: values.name }
-            const res = await EnvironmentService.put(data);
+        try {
+            if (id) {
+                const res = await EnvironmentService.put(values);
 
-            if (res && res.status === 200) {
-                reset(res.data.environment);
-                fetchData();
-                toastSuccess('Ambiente atualizado com sucesso!')
-            }
-        } else {
-            const data = { name: values.name }
-            const res = await EnvironmentService.post(data);
+                if (res && res.status === 200) {
+                    reset(res.data.environment);
+                    fetchData();
+                    toastSuccess('Ambiente atualizado com sucesso!')
+                }
+            } else {
+                const data = { name: values.name }
+                const res = await EnvironmentService.post(data);
 
-            if (res && res.status === 201) {
-                reset(res.data.environment);
-                fetchData();
-                toastSuccess('Ambiente registrado com sucesso!')
+                if (res && res.status === 201) {
+                    reset(res.data.environment);
+                    fetchData();
+                    toastSuccess('Ambiente registrado com sucesso!')
+                }
             }
+        } catch (error) {
+            console.error('Erro:', error);
+        } finally {
+            setIsLoading(false)
+            setToEdit({ open: false, environment: undefined })
         }
-        setIsLoading(false)
     }
+
 
     useEffect(() => {
         if (id) fetchEnvironment()
