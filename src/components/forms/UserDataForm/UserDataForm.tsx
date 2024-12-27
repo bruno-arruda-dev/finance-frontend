@@ -9,10 +9,9 @@ import { normalizeText } from "../../../utils/normalize-text";
 import { toastSuccess } from "../../../utils/toast-utils";
 import BottomBarForm from "../../BottomBar/BottomBarForm";
 import CustomCheckboxForm from "../../CustomFormComponents/CustomCheckboxForm";
-import CustomDatePickerForm from "../../CustomFormComponents/CustomDatePickerForm";
 import CustomInputForm from "../../CustomFormComponents/CustomInputForm";
-import { UserDataFormInitialValues, UserDataFormSchema } from "./UserDataFormController";
 import CustomLabelForm from "../../CustomFormComponents/CustomLabelForm";
+import { UserDataFormInitialValues, UserDataFormSchema } from "./UserDataFormController";
 
 export default function UserDataForm() {
     const { handleSubmit, reset, control, formState: { dirtyFields } } = useForm({
