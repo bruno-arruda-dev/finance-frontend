@@ -1,8 +1,8 @@
 import { Card, Tooltip } from "antd";
+import dayjs from "dayjs";
 import { BiCheckDouble } from "react-icons/bi";
 import { TiCancel } from "react-icons/ti";
 import { TEnvironmentShare } from "./EnvironmentShareController";
-import dayjs from "dayjs";
 
 type props = {
     environment: TEnvironmentShare

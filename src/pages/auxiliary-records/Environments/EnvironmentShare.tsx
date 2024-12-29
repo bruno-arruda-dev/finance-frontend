@@ -1,13 +1,10 @@
-import { Card } from "antd";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { TEnvironment } from "./Environments";
-import { useForm } from "react-hook-form";
+import BottomBarForm from "../../../components/BottomBar/BottomBarForm";
 import { EnvironmentService } from "../../../services/environment-service";
 import { verifyPermitions } from "../../../utils/security-utils";
-import { AllEnvironmentShareSchema, TAllEnvironmentShare, TEnvironmentShare } from "./EnvironmentShareController";
-import { zodResolver } from "@hookform/resolvers/zod";
-import BottomBarForm from "../../../components/BottomBar/BottomBarForm";
+import { TEnvironment } from "./Environments";
 import EnvironmentShareCard from "./EnvironmentShareCard";
+import { TEnvironmentShare } from "./EnvironmentShareController";
 
 type props = {
     fetchData: () => void;
@@ -20,6 +17,8 @@ export default function EnvironmentShare({ fetchData, id, setToShare }: props) {
     const [isLoading, setIsLoading] = useState(false)
     const [actions, setActions] = useState([])
     const isAllowed = verifyPermitions(actions);
+
+    console.log(isAllowed, isLoading)
 
     async function fetchEnvironment() {
         setIsLoading(true)
