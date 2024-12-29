@@ -3,23 +3,28 @@ import { HandleSessionStorage } from '../utils/session-storage';
 import { toastError } from '../utils/toast-utils';
 
 const baseURL = import.meta.env.VITE_BASE_URL;
-const user = HandleSessionStorage.getUserData();
 
 const Api = axios.create({
     baseURL: baseURL,
     headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${user?.token}`
     }
+});
+
+Api.interceptors.request.use(config => {
+    const user = HandleSessionStorage.getUserData();
+    if (user?.token) {
+        config.headers.Authorization = `Bearer ${user.token}`;
+    }
+    return config;
 });
 
 Api.interceptors.response.use(
     response => response,
     error => {
         if (!error.response) {
-            toastError('Ocorreu algum problema. Por favor tente denovo mais tarde');
+            toastError('Ocorreu algum problema. Por favor tente novamente mais tarde');
         }
-
         return Promise.reject(error);
     }
 );
