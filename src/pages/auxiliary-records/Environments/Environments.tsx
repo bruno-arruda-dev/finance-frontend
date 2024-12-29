@@ -1,16 +1,17 @@
 import { Col, Drawer, Row } from "antd";
 import { useEffect, useState } from "react";
-import BasicModal from "../../components/BasicModal";
-import BottomBarForm from "../../components/BottomBar/BottomBarForm";
-import EnvironmentForm from "../../components/forms/EnvironmentForm/EnvironmentForm";
-import ColumnActions from "../../components/GenericTable/ColumnActions";
-import GenericTable from "../../components/GenericTable/GenericTable";
-import PageTitle from "../../components/PageTitle";
-import WorkLayout from "../../components/WorkLayout";
-import { EnvironmentService } from "../../services/environment-service";
-import { toastSuccess } from "../../utils/toast-utils";
-import { findIn } from "../../utils/utils";
-import { useUser } from "../../context/UserContext";
+import BasicModal from "../../../components/BasicModal";
+import BottomBarForm from "../../../components/BottomBar/BottomBarForm";
+import EnvironmentForm from "../../../components/forms/EnvironmentForm/EnvironmentForm";
+import ColumnActions from "../../../components/GenericTable/ColumnActions";
+import GenericTable from "../../../components/GenericTable/GenericTable";
+import PageTitle from "../../../components/PageTitle";
+import WorkLayout from "../../../components/WorkLayout";
+import { EnvironmentService } from "../../../services/environment-service";
+import { toastSuccess } from "../../../utils/toast-utils";
+import { findIn } from "../../../utils/utils";
+import { useUser } from "../../../context/UserContext";
+import EnvironmentShare from "./EnvironmentShare";
 
 type TPermitions = 'editar' | 'compartilhar' | 'deletar';
 
@@ -156,8 +157,8 @@ export default function Environments() {
         <EnvironmentForm fetchData={fetchData} id={toEdit.environment?.id} setToEdit={setToEdit} />
       </Drawer>
 
-      <Drawer destroyOnClose title={'Compartilhamento de Ambiente'} open={toShare.open} onClose={() => setToShare({ open: false, environment: undefined })}>
-        Compartilhar
+      <Drawer width={'30vw'} destroyOnClose title={'Compartilhamento de Ambiente'} open={toShare.open} onClose={() => setToShare({ open: false, environment: undefined })}>
+        <EnvironmentShare fetchData={fetchData} id={toShare.environment?.id} setToShare={setToShare} />
       </Drawer>
 
       <BasicModal

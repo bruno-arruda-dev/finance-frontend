@@ -9,7 +9,8 @@ import CustomCheckboxForm from "../../CustomFormComponents/CustomCheckboxForm";
 import CustomInputForm from "../../CustomFormComponents/CustomInputForm";
 import { EnvironmentInitialValues, EnvironmentSchema } from "./EnvironmentFormController";
 import CustomLabelForm from "../../CustomFormComponents/CustomLabelForm";
-import { TEnvironment } from "../../../pages/auxiliary-records/Environments";
+import { TEnvironment } from "../../../pages/auxiliary-records/Environments/Environments";
+import { verifyPermitions } from "../../../utils/security-utils";
 
 type props = {
     fetchData: () => void;
@@ -24,13 +25,19 @@ export default function EnvironmentForm({ fetchData, id, setToEdit }: props) {
         defaultValues: EnvironmentInitialValues,
         resolver: zodResolver(EnvironmentSchema)
     })
-    const [isLoading, setIsLoading] = useState(false)
     const isDirty = Object.entries(dirtyFields).length > 0;
+    const [isLoading, setIsLoading] = useState(false)
+    const [actions, setActions] = useState([])
+    const isAllowed = verifyPermitions(actions);
+    const allowedEdit = isAllowed('editar');
 
     async function fetchEnvironment() {
         setIsLoading(true)
         const res = await EnvironmentService.get(id);
-        if (res && res.status === 200) reset(res.data.environments[0])
+        if (res && res.status === 200) {
+            reset(res.data.environments[0])
+            setActions(res.data.environments[0].permitions)
+        }
         setIsLoading(false)
     }
 
@@ -76,13 +83,13 @@ export default function EnvironmentForm({ fetchData, id, setToEdit }: props) {
                         <CustomLabelForm label='Código' nameField="id" control={control} isLoading={isLoading} />
                     </Col>
                     <Col span={4}>
-                        <CustomCheckboxForm isLoading={isLoading} label='Ativo' nameField="active" control={control} />
+                        <CustomCheckboxForm isLoading={isLoading} label='Ativo' nameField="active" control={control} disabled={!allowedEdit} />
                     </Col>
                 </Row>
                 <br />
                 <Row gutter={[10, 10]}>
                     <Col span={24}>
-                        <CustomInputForm textTransform="capitalize" isLoading={isLoading} label='Nome' nameField="name" control={control} />
+                        <CustomInputForm textTransform="capitalize" isLoading={isLoading} label='Nome' nameField="name" control={control} disabled={!allowedEdit} />
                     </Col>
                 </Row>
             </Card>

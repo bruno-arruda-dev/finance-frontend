@@ -8,6 +8,8 @@ type props = {
     textCancel?: any;
     disableCancel?: boolean,
     hideCancel?: any,
+    modal?: boolean,
+    width?: number,
 }
 
 export default function BottomBarForm({
@@ -19,10 +21,15 @@ export default function BottomBarForm({
     textCancel = 'Cancelar',
     disableCancel,
     hideCancel,
+    modal,
+    width
 }: props) {
 
     return (
-        <div className="fixed bottom-0 right-0 bg-primary w-full h-14 pl-14 pr-4 flex flex-row items-center justify-between">
+        <div style={{ width: width ? `${width}vw` : undefined }} className={`
+            fixed bottom-0 right-0 flex flex-row items-center justify-between pr-4 h-14 pl-14
+            ${modal ? `` : 'w-full bg-primary'}
+            `}>
 
             <div />
 

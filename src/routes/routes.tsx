@@ -1,7 +1,7 @@
 import { Routes, Route, Outlet } from 'react-router-dom';
 import Home from '../App';
 import Cashflow from '../pages/Cashflow';
-import Environments from '../pages/auxiliary-records/Environments';
+import Environments from '../pages/auxiliary-records/Environments/Environments';
 import Wallets from '../pages/auxiliary-records/Wallets';
 import Dashboard from '../pages/Dashboard';
 import User from '../pages/user/User';

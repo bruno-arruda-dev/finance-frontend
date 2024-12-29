@@ -11,10 +11,18 @@ import AppRoutes from './routes/routes.tsx';
 import { BrowserRouter } from 'react-router-dom';
 dayjs.locale('pt-br');
 
+const tokens = {
+  components: {
+    Card: {
+      colorBgContainer: 'red',
+    },
+  }
+}
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
-      <ConfigProvider locale={ptBR}>
+      <ConfigProvider locale={ptBR} theme={tokens}>
         <AppRoutes />
         <ToastContainer />
       </ConfigProvider>
