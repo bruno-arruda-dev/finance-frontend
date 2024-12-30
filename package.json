@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "buildw": "tsc && vite build && rmdir /S /Q dist",
+    "buildw": "tsc --noEmitOnError && vite build && rmdir /S /Q dist",
     "lint": "eslint .",
     "preview": "vite preview"
   },

@@ -18,7 +18,7 @@ export default function EnvironmentShare({ fetchData, id, setToShare }: props) {
     const [actions, setActions] = useState([])
     const isAllowed = verifyPermitions(actions);
 
-    console.log(isAllowed, isLoading)
+    console.log(isAllowed, isLoading, fetchData)
 
     async function fetchEnvironment() {
         setIsLoading(true)

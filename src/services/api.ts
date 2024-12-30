@@ -19,12 +19,6 @@ Api.interceptors.request.use(config => {
     return config;
 });
 
-let navigateFunction: ((path: string) => void) | null = null;
-
-export const setNavigate = (navigate: (path: string) => void) => {
-    navigateFunction = navigate;
-};
-
 Api.interceptors.response.use(
     response => response,
     error => {
