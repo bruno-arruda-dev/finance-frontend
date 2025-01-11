@@ -29,7 +29,7 @@ export default function EnvironmentForm({ fetchData, id, setToEdit }: props) {
     const [isLoading, setIsLoading] = useState(false)
     const [actions, setActions] = useState([])
     const isAllowed = verifyPermitions(actions);
-    const allowedEdit = isAllowed('editar');
+    const allowedEdit = id ? isAllowed('editar') : true;
 
     async function fetchEnvironment() {
         setIsLoading(true)
@@ -40,6 +40,8 @@ export default function EnvironmentForm({ fetchData, id, setToEdit }: props) {
         }
         setIsLoading(false)
     }
+
+    console.log(actions)
 
     async function onSubmit(values: any) {
         setIsLoading(true)
@@ -94,7 +96,7 @@ export default function EnvironmentForm({ fetchData, id, setToEdit }: props) {
                 </Row>
             </Card>
 
-            <BottomBarForm hideCancel={!isDirty} hideOk={!isDirty} actionCancel={() => reset()} />
+            <BottomBarForm disableOk={!isDirty || !allowedEdit} disableCancel={!isDirty} actionCancel={() => reset()} width={30} modal />
         </form>
     )
 }
