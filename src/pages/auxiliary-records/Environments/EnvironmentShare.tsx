@@ -5,6 +5,7 @@ import { verifyPermitions } from "../../../utils/security-utils";
 import { TEnvironment } from "./Environments";
 import EnvironmentShareCard from "./EnvironmentShareCard";
 import { TEnvironmentShare } from "./EnvironmentShareController";
+import { Empty } from "antd";
 
 type props = {
     fetchData: () => void;
@@ -17,8 +18,6 @@ export default function EnvironmentShare({ fetchData, id, setToShare }: props) {
     const [isLoading, setIsLoading] = useState(false)
     const [actions, setActions] = useState([])
     const isAllowed = verifyPermitions(actions);
-
-    console.log(isAllowed, isLoading, fetchData)
 
     async function fetchEnvironment() {
         setIsLoading(true)
@@ -36,14 +35,14 @@ export default function EnvironmentShare({ fetchData, id, setToShare }: props) {
 
     return (
         <>
-            {
-                data && data.map((e: TEnvironmentShare) => (
+            {isLoading ? <h1>Carregando...</h1> :
+                data && data.length === 0 ? <Empty /> : data.map((e: TEnvironmentShare) => (
                     <EnvironmentShareCard environment={e} />
                 )
                 )
             }
 
-            <BottomBarForm textOk={'Ok'} actionOk={() => setToShare({ open: false, environment: undefined })} hideCancel modal width={30} />
+            <BottomBarForm textOk={'Ok'} actionOk={() => setToShare({ open: false, environment: undefined })} modal width={30} />
         </>
     )
 }
