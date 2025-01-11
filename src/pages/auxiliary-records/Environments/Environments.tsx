@@ -153,7 +153,7 @@ export default function Environments() {
         <BottomBarForm textOk={'Novo Ambiente'} actionOk={() => setToEdit({ open: true, environment: undefined })} hideCancel />
       </WorkLayout>
 
-      <Drawer destroyOnClose title={toEdit.environment ? 'Editar Ambiente' : 'Cadastrar Ambiente'} open={toEdit.open} onClose={() => setToEdit({ open: false, environment: undefined })}>
+      <Drawer width={'30vw'} destroyOnClose title={toEdit.environment ? 'Editar Ambiente' : 'Cadastrar Ambiente'} open={toEdit.open} onClose={() => setToEdit({ open: false, environment: undefined })}>
         <EnvironmentForm fetchData={fetchData} id={toEdit.environment?.id} setToEdit={setToEdit} />
       </Drawer>
 
