@@ -6,19 +6,21 @@ import { TEnvironmentShare } from "./EnvironmentShareController";
 
 type props = {
     environment: TEnvironmentShare
+    onClick: () => void
 }
 
-export default function EnvironmentShareCard({ environment }: props) {
+export default function EnvironmentShareCard({ environment, onClick }: props) {
+    const actionsTeste = environment.permitions || []
 
-    const actionsTeste = ["editar", "compartilhar", "deletar"]
-    // const actionsTeste = ["editar", "compartilhar"]
+    // const actionsTeste = ["editar", "compartilhar", "deletar"]
+    // const actionsTeste = ["compartilhar", "deletar"]
     // const actionsTeste = ["editar"]
 
     const actions = () => {
         if (actionsTeste.length === 0) return "";
         if (actionsTeste.length === 1) return "Pode " + actionsTeste[0];
-        const lastAction = actionsTeste.pop();
-        return "Pode " + actionsTeste.join(', ') + " e " + lastAction + ".";
+        if (actionsTeste.length === 2) return "Pode " + actionsTeste.join(' e ');
+        if (actionsTeste.length === 3) return "Pode " + actionsTeste[0] + ", " + actionsTeste[1] + " e " + actionsTeste[2];
     };
 
     const accepted = environment.accepted === null
@@ -34,7 +36,7 @@ export default function EnvironmentShareCard({ environment }: props) {
             </Tooltip>
 
     return (
-        <>
+        <div onClick={onClick}>
             <Card className="cursor-pointer hover:bg-secondary">
                 <p className="absolute top-0 left-2">{environment.userPartnerName ? environment.userPartnerName : environment.userPartnerEmail}</p>
                 <p>{actions()}</p>
@@ -42,6 +44,6 @@ export default function EnvironmentShareCard({ environment }: props) {
                 {accepted}
             </Card>
             <div className="h-1" />
-        </>
+        </div>
     )
 }
